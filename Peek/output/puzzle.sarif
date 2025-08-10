@@ -1,0 +1,172 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "results": [
+                {
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "0",
+                                    "properties": {
+                                        "position": {
+                                            "cellHashHex": "275EAFB60BF306F8BF5BD01AE79AD68A3D606C65FFC4197D370921D2C96AF632",
+                                            "offset": 424
+                                        },
+                                        "inst": "THROWIF"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "message": {
+                        "text": "TvmFailure(exit=TVM user defined error with exit code 256, phase=COMPUTE_PHASE)"
+                    },
+                    "properties": {
+                        "gasUsage": 4938,
+                        "usedParameters": {
+                            "type": "recvInternalInput",
+                            "srcAddress": {
+                                "cell": {
+                                    "data": "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                                }
+                            },
+                            "msgBody": {
+                                "cell": {
+                                    "data": "00000000000000000101100100111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                                    "knownTypes": [
+                                        {
+                                            "type": {
+                                                "type": "org.usvm.test.resolver.TvmTestCellDataIntegerRead",
+                                                "bitSize": 32,
+                                                "isSigned": false,
+                                                "endian": "BigEndian"
+                                            },
+                                            "offset": 0
+                                        },
+                                        {
+                                            "type": {
+                                                "type": "org.usvm.test.resolver.TvmTestCellDataIntegerRead",
+                                                "bitSize": 32,
+                                                "isSigned": false,
+                                                "endian": "BigEndian"
+                                            },
+                                            "offset": 32
+                                        }
+                                    ]
+                                }
+                            },
+                            "msgValue": "73786976294838206464",
+                            "bounce": false,
+                            "bounced": false,
+                            "ihrDisabled": false,
+                            "ihrFee": "0",
+                            "fwdFee": "0",
+                            "createdLt": "0",
+                            "createdAt": "0"
+                        },
+                        "fetchedValues": {
+                            "1": "0",
+                            "-10": "22840",
+                            "-11": "0"
+                        },
+                        "rootContractInitialC4": {
+                            "type": "org.usvm.test.resolver.TvmTestDataCellValue"
+                        },
+                        "resultStack": [
+                            "0"
+                        ]
+                    },
+                    "ruleId": "user-defined-error"
+                },
+                {
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "0",
+                                    "properties": {
+                                        "position": {
+                                            "cellHashHex": "275EAFB60BF306F8BF5BD01AE79AD68A3D606C65FFC4197D370921D2C96AF632",
+                                            "offset": 424
+                                        },
+                                        "inst": "THROWIF"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "message": {
+                        "text": "TvmFailure(exit=TVM user defined error with exit code 256, phase=COMPUTE_PHASE)"
+                    },
+                    "properties": {
+                        "gasUsage": 4830,
+                        "usedParameters": {
+                            "type": "recvInternalInput",
+                            "srcAddress": {
+                                "cell": {
+                                    "data": "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                                }
+                            },
+                            "msgBody": {
+                                "cell": {
+                                    "data": "00000000000000000101100100111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                                    "knownTypes": [
+                                        {
+                                            "type": {
+                                                "type": "org.usvm.test.resolver.TvmTestCellDataIntegerRead",
+                                                "bitSize": 32,
+                                                "isSigned": false,
+                                                "endian": "BigEndian"
+                                            },
+                                            "offset": 0
+                                        },
+                                        {
+                                            "type": {
+                                                "type": "org.usvm.test.resolver.TvmTestCellDataIntegerRead",
+                                                "bitSize": 32,
+                                                "isSigned": false,
+                                                "endian": "BigEndian"
+                                            },
+                                            "offset": 32
+                                        }
+                                    ]
+                                }
+                            },
+                            "msgValue": "73786976294838206464",
+                            "bounce": false,
+                            "bounced": false,
+                            "ihrDisabled": false,
+                            "ihrFee": "0",
+                            "fwdFee": "0",
+                            "createdLt": "0",
+                            "createdAt": "0"
+                        },
+                        "fetchedValues": {
+                            "1": "0",
+                            "-10": "22840",
+                            "-11": "0"
+                        },
+                        "rootContractInitialC4": {
+                            "type": "org.usvm.test.resolver.TvmTestDataCellValue"
+                        },
+                        "resultStack": [
+                            "0"
+                        ]
+                    },
+                    "ruleId": "user-defined-error"
+                }
+            ],
+            "tool": {
+                "driver": {
+                    "name": "TSA",
+                    "organization": "Explyt"
+                }
+            }
+        }
+    ]
+}

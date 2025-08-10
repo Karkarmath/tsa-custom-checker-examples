@@ -1,0 +1,70 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "results": [
+                {
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "0",
+                                    "properties": {
+                                        "position": {
+                                            "cellHashHex": "592F4A0DB5661D6625C796AF569B946AAE514EAE477542E683DB3424D666E30D",
+                                            "offset": 208
+                                        },
+                                        "inst": "THROWIF"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "message": {
+                        "text": "TvmFailure(exit=TVM user defined error with exit code 256, phase=COMPUTE_PHASE)"
+                    },
+                    "properties": {
+                        "gasUsage": 675,
+                        "usedParameters": {
+                            "type": "recvInternalInput",
+                            "srcAddress": {
+                                "cell": {
+                                    "data": "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                                }
+                            },
+                            "msgBody": {
+                            },
+                            "msgValue": "73786976294838206464",
+                            "bounce": false,
+                            "bounced": false,
+                            "ihrDisabled": false,
+                            "ihrFee": "0",
+                            "fwdFee": "0",
+                            "createdLt": "0",
+                            "createdAt": "0"
+                        },
+                        "fetchedValues": {
+                            "0": "0",
+                            "1": "-115792089237316195423570985008687907853269984665640564039457584007913129639936"
+                        },
+                        "rootContractInitialC4": {
+                            "type": "org.usvm.test.resolver.TvmTestDataCellValue"
+                        },
+                        "resultStack": [
+                            "0"
+                        ]
+                    },
+                    "ruleId": "user-defined-error"
+                }
+            ],
+            "tool": {
+                "driver": {
+                    "name": "TSA",
+                    "organization": "Explyt"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+#include "../imports/stdlib.fc";
+#include "../imports/tsa_functions.fc";
+
+slice $global_myAddress() impure asm """
+    MYADDR
+""";
+
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice msg_body) impure {
+    tsa_forbid_failures();
+    
+    ;; Get all neaded data from contract
+    slice owner = tsa_call_1_0(1, -10);
+    slice player = tsa_call_1_0(1, -21);
+    int nonce_parent = tsa_call_1_0(1, -22);
+    slice child_address_from_parent = tsa_call_1_0(1, -23);
+    slice parent_address = tsa_call_1_0(1, -24);
+
+    ;; Initialize C4 for puzzle contracts
+    tsa_assert(equal_slice_bits(player, $global_myAddress()));
+    tsa_assert_not(equal_slice_bits(player, owner));
+    tsa_assert_not(equal_slice_bits(child_address_from_parent, parent_address));
+    tsa_assert_not(equal_slice_bits(child_address_from_parent, player));
+    tsa_assert_not(equal_slice_bits(parent_address, player));
+
+    ;; Fetch valuable fields for convenience
+    tsa_fetch_value(owner, 0);
+    tsa_fetch_value(child_address_from_parent, 1);
+    tsa_fetch_value(player, 2);
+    
+    ;; Send a message to puzzle contract
+    tsa_call_0_4(my_balance, msg_value, in_msg_full, msg_body, 1, 0);
+
+    ;; Get the result after the message
+    slice owner_after_msg = tsa_call_1_0(1, -10);
+    tsa_fetch_value(owner_after_msg, 3);
+            
+    tsa_allow_failures();
+    
+    ;; Check that after message owner of the contract is player
+    throw_if(256, equal_slice_bits(player, owner_after_msg));
+}
+

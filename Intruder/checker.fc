@@ -1,0 +1,60 @@
+#include "../imports/stdlib.fc";
+#include "../imports/tsa_functions.fc";
+
+slice $global_myAddress() impure asm """
+    MYADDR
+""";
+
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice msg_body) impure {
+    tsa_forbid_failures();
+
+    ;; Ensure the initial message is not bounced
+    slice cs = in_msg_full.begin_parse();
+    int flags = cs~load_uint(4);
+    tsa_assert_not(flags & 1);
+
+    ;; Ensure that we perform a [ChangeClientOwner] operation
+    slice body_copy = msg_body;
+    int op = body_copy~load_uint(32);
+    tsa_assert(op == 0x6f13c225);
+
+    ;; Ensure that the message body contains a newOwner address
+    slice newOwner = body_copy~load_msg_addr();
+    tsa_fetch_value(newOwner, -1);
+    
+    ;; Get all neaded data from Manager contract
+    slice client_address_from_manager = tsa_call_1_0(1, -30);
+    int nonce_manager = tsa_call_1_0(1, -31);
+    slice manager_address = tsa_call_1_0(1, -32);
+
+    ;; Get all neaded data from Client contract
+    slice owner = tsa_call_1_0(2, -10);
+    slice player = tsa_call_1_0(2, -21);
+    int nonce_client = tsa_call_1_0(2, -22);
+    slice manager_address_from_client = tsa_call_1_0(2, -23);
+    slice client_address = tsa_call_1_0(2, -24);
+
+    ;; Initialize C4 for puzzle contracts
+    tsa_assert(equal_slice_bits(client_address, client_address_from_manager));
+    tsa_assert(equal_slice_bits(manager_address, manager_address_from_client));
+    tsa_assert(equal_slice_bits(player, $global_myAddress()));
+    tsa_assert_not(equal_slice_bits(player, owner));
+    tsa_assert_not(equal_slice_bits(player, client_address));
+    tsa_assert_not(equal_slice_bits(player, manager_address));
+    tsa_assert_not(equal_slice_bits(client_address, manager_address));
+    tsa_assert_not(equal_slice_bits(client_address, owner));
+    tsa_assert_not(equal_slice_bits(manager_address, owner));
+
+    ;; Send a message to Manager contract
+    tsa_call_0_4(my_balance, msg_value, in_msg_full, msg_body, 1, 0);
+
+    ;; Get the result after the message
+    slice owner_after_message = tsa_call_1_0(2, -10);
+    tsa_fetch_value(owner_after_message, 1);
+            
+    tsa_allow_failures();
+    
+    ;; We should find some message that would make the result true
+    throw_if(256, equal_slice_bits(player, owner_after_message));
+}
+
