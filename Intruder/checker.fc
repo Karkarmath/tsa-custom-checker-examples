@@ -33,6 +33,7 @@ slice $global_myAddress() impure asm """
     int nonce_client = tsa_call_1_0(2, -22);
     slice manager_address_from_client = tsa_call_1_0(2, -23);
     slice client_address = tsa_call_1_0(2, -24);
+    tsa_fetch_value(manager_address, 10);
 
     ;; Initialize C4 for puzzle contracts
     tsa_assert(equal_slice_bits(client_address, client_address_from_manager));

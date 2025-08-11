@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "handlers": [
+      {
+        "op": "a4e501ef",
+        "destinations": [2]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "handlers": [
+      {
+        "op": "6f13c225",
+        "destinations": [1]
+      },
+      {
+        "op": "1844",
+        "destinations": [0]
+      }
+    ]
+  }
+]

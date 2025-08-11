@@ -3,9 +3,13 @@
     "id": 1,
     "handlers": [
       {
-        "op": "a4e501ef",
+        "op": "6f13c225",
         "destinations": [2]
       }
     ]
+  },
+  {
+    "id": 2,
+    "handlers": []
   }
 ]

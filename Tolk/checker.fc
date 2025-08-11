@@ -18,7 +18,7 @@
             
     tsa_allow_failures();
     
-    ;; Check that after message owner of the contract is player
+    ;; Check that after message the contract is not locked
     throw_if(256, locked_after_msg == 0);
 }
 

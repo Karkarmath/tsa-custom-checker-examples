@@ -1,0 +1,32 @@
+#include "../imports/stdlib.fc";
+#include "../imports/tsa_functions.fc";
+
+slice $global_myAddress() impure asm """
+    MYADDR
+""";
+
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice msg_body) impure {
+    tsa_forbid_failures();
+    
+    ;; Get all neaded data from puzzle contract
+    int enabled = tsa_call_1_0(1, 74950); ;; 74950 --- opcode of the second get fucntion, see puzzle.boc
+    tsa_assert(enabled == -1);
+    tsa_fetch_value(enabled, 0);
+    slice owner = tsa_call_1_0(1, 83229); ;; 83229 --- opcode of the second get function, see puzzle.boc
+    tsa_assert_not(equal_slice_bits($global_myAddress(), owner));
+    tsa_fetch_value(owner, 2);
+    tsa_fetch_value($global_myAddress(), 3);
+    
+    ;; Send a message to puzzle contract
+    tsa_call_0_4(my_balance, msg_value, in_msg_full, msg_body, 1, 0);
+
+    ;; Get the result after the message
+    int enabled_after_msg = tsa_call_1_0(1, 74950);
+    tsa_fetch_value(enabled_after_msg, 1);
+            
+    tsa_allow_failures();
+    
+    ;; Check that after message the contract is disabled
+    throw_if(256, enabled_after_msg == 0);
+}
+
