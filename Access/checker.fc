@@ -1,0 +1,57 @@
+#include "../imports/stdlib.fc";
+#include "../imports/tsa_functions.fc";
+
+() on_internal_message_send(int balance, int msg_value, cell in_msg_full, slice msg_body, int input_id) impure method_id {
+    slice ms = in_msg_full.begin_parse();
+
+    ms~skip_bits(4);
+
+    slice msg_sender_addr_slice = ms~load_msg_addr();
+    slice msg_target_addr_slice = ms~load_msg_addr();
+
+    ;; Show the source and target addresses for each message
+    tsa_fetch_value(msg_sender_addr_slice, -1 + input_id);
+    tsa_fetch_value(msg_target_addr_slice, -2 + input_id);
+}
+
+;; The solution requires sending three messages
+;; First, a change nonce
+;; Then, a change owner
+;; And then an unlock
+;;
+;; However, we should not tell TSA the order of those messages, nor their opcodes and payload. 
+;; TSA should discover that info by itself.
+
+() main() impure {
+    tsa_forbid_failures();
+    
+    ;; Initialize C4 for puzzle contract
+    cell stateCell = tsa_call_1_0(1, -11);
+    slice stateSlice = stateCell.begin_parse();
+    slice player = stateSlice~load_msg_addr();   ;; 267 bits
+    int nonce = stateSlice~load_uint(32);
+    slice owner = stateSlice~load_msg_addr();    ;; 267 bits
+    int locked = stateSlice~load_int(1);
+    tsa_assert(locked == -1);                          ;; Initially, contract is locked
+    tsa_assert_not(equal_slice_bits(player, owner));   ;; Player and owner should be different, to avoid trivial solutions
+    tsa_assert(nonce != 9999);                         ;; nonce should be different from 9999, to avoid trivial solutions
+    tsa_fetch_value(stateCell, -1);                    ;; Show the entire contents of C4
+    
+    ;; Send the first message
+    tsa_send_internal_message(1, -10);
+    
+    ;; Send the second message
+    tsa_send_internal_message(1, -20);
+    
+    ;; Send the third message
+    tsa_send_internal_message(1, -30);
+    
+    ;; get the result
+    int final_result = tsa_call_1_0(1, -10);
+    tsa_fetch_value(final_result, 1);
+
+    tsa_allow_failures();
+    
+    ;; We should find some messages that would make the result true
+    throw_if(256, final_result == -1);
+}
