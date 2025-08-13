@@ -1,0 +1,26 @@
+#include "../imports/stdlib.fc";
+#include "../imports/tsa_functions.fc";
+
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice msg_body) impure {
+    tsa_forbid_failures();
+        
+    ;; send a message to the puzzle contract
+    tsa_call_0_4(my_balance, msg_value, in_msg_full, msg_body, 1, 0);
+
+    ;; get the result after the message
+    int final_result = tsa_call_1_0(1, 88503);
+    tsa_fetch_value(final_result, 1);
+
+    ;; Show the discovered opcode and password
+    slice body_copy = msg_body;
+    int op_code = body_copy~load_uint(32);
+    int password = body_copy~load_uint(32);
+    tsa_fetch_value(op_code, -10);
+    tsa_fetch_value(password, -11);
+            
+    tsa_allow_failures();
+    
+    ;; We should find some message that would make the locked variable false
+    throw_if(256, final_result == 0);
+}
+
